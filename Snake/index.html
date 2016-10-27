@@ -3,13 +3,53 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>TypeScript HTML App</title>
+    <title>Snake</title>
     <link rel="stylesheet" href="app.css" type="text/css" />
     <script src="app.js"></script>
+    <script src="scripts/Vector.js"></script>
+    <script src="scripts/Snake.js"></script>
+    <script src="scripts/Render.js"></script>
+    <script>
+        // Track the mouse's position in the canvas.
+        var mouseX = null;
+        var mouseY = null;
+        function setMouseCoordinates(event)
+        {
+            mouseX = event.pageX;
+            mouseY = event.pageY;
+        }
+    </script>
 </head>
 <body>
-    <h1>TypeScript HTML App</h1>
+    <div style="margin: auto">    
+        <canvas height="400" width="800" style="background-color: #eeeeee;" onmousemove="setMouseCoordinates(event)"></canvas>
+    </div>
+    <script>
+        // Setup.
+        var context = document.querySelector("canvas").getContext("2d");
+        
+        var snake = new Snake();
+        snake.addSegment(300, 300);
+        snake.addSegment(280, 300);
+        snake.addSegment(260, 300);
+        snake.addSegment(240, 300);
+        snake.addSegment(220, 300);
+        snake.addSegment(200, 300);
+        snake.addSegment(180, 300);
+        snake.addSegment(160, 300);
 
-    <div id="content"></div>
+        var renderer = new Renderer(context, snake);
+        
+
+
+        // Game loop.
+        setInterval(() =>
+        {
+            context.clearRect(0, 0, 800, 400);
+            snake.move(mouseX, mouseY);
+            renderer.renderSegments();
+            renderer.renderFood(food);
+        }, 16);
+    </script>
 </body>
 </html>

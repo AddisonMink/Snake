@@ -24,6 +24,9 @@
   <ItemGroup>
     <Content Include="app.css" />
     <Content Include="index.html" />
+    <Content Include="scripts\Render.js" />
+    <Content Include="scripts\Snake.js" />
+    <Content Include="scripts\Vector.js" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
