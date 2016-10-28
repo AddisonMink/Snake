@@ -42,7 +42,6 @@ Renderer.prototype.renderStar = function()
     if (star === null)
         return;
     context.fillStyle = "white";
-    console.log(context.fillStyle);
     context.beginPath();
     context.arc(star.x, star.y, star.radius, 0, 2 * Math.PI, false);
     context.fill();
@@ -100,4 +99,15 @@ Renderer.prototype.renderForeground = function()
     context.lineTo(100, 400);
     context.closePath();
     context.fill();
+}
+
+Renderer.prototype.renderGameOver = function()
+{
+    if (snake.alive)
+        return;
+    context.fillStyle = "white";
+    context.font = "32px Trebuchet MS";
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    context.fillText("Game Over", 400, 200);
 }

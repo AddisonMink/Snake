@@ -67,28 +67,40 @@
     </div>
     <div id="dashboard">
         <div id="score">Score: </div>
-        <div id="reset">RESET</div>
+        <div id="reset" onclick="setup()">RESET</div>
     </div>
     <script>
         // Setup.
         var context = document.querySelector("canvas").getContext("2d");
-        
-        var snake = new Snake();
-        snake.addSegment(300, 300);
-        snake.addSegment(280, 300);
-        snake.addSegment(260, 300);
-        snake.addSegment(240, 300);
-        snake.addSegment(220, 300);
-        snake.addSegment(200, 300);
-        snake.addSegment(180, 300);
-        snake.addSegment(160, 300);
-
+        var snake = null;
         var star = null;
+        var renderer;
+        var score;
+        var scoreElement;
 
-        var renderer = new Renderer(context, snake);
-        
-        var score = 0;
-        var scoreElement = document.getElementById("score");
+        function setup()
+        {
+            console.log("test")
+
+            snake = new Snake();
+            snake.addSegment(300, 300);
+            snake.addSegment(280, 300);
+            snake.addSegment(260, 300);
+            snake.addSegment(240, 300);
+            snake.addSegment(220, 300);
+            snake.addSegment(200, 300);
+            snake.addSegment(180, 300);
+            snake.addSegment(160, 300);
+
+            star = null;
+
+            renderer = new Renderer(context, snake);
+
+            score = 0;
+            scoreElement = document.getElementById("score");
+            scoreElement.innerHTML = "Score: " + score;
+        }
+        setup();
 
         // Game loop.
         setInterval(() =>
@@ -120,7 +132,6 @@
             if (star !== null && snake.alive)
             {
                 var head = this.snake.segments[0];
-                console.log(head);
                 var distance = (new Vector(head.x, head.y)).getDistanceFrom(new Vector(star.x, star.y));
                 if(distance < head.radius)
                 {
@@ -144,6 +155,8 @@
             renderer.renderForeground();
 
             renderer.renderStar();
+
+            renderer.renderGameOver();
         }, 16);
     </script>
 </body>
