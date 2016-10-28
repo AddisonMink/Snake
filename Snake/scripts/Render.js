@@ -58,6 +58,15 @@ Renderer.prototype.renderSegments = function()
         context.arc(segment.x, segment.y, segment.radius, 0, 2 * Math.PI, false);
         context.fill();
     });
+
+    this.snake.fallingSegments.forEach((segment) =>
+    {
+        context.fillStyle = segment.color;
+        context.beginPath();
+        context.moveTo(segment.x, segment.y);
+        context.arc(segment.x, segment.y, segment.radius, 0, 2 * Math.PI, false);
+        context.fill();
+    });
 }
 
 Renderer.prototype.renderForeground = function()

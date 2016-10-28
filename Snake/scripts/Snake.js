@@ -45,9 +45,18 @@ Segment.prototype.getPointBehind = function(x, y)
     this.pointBehind = forward.subtract(pos).multiply(new Vector(-1, -1)).normalize().multiply(new Vector(this.radius * 2, this.radius * 2)).add(pos);
 }
 
+Segment.prototype.fall = function()
+{
+    this.speed += 0.5;
+    this.y += this.speed;
+}
+
 function Snake()
 {
     this.segments = [];
+    this.fallingSegments = [];
+    this.fallDelay = 0;
+    this.alive = true;
 }
 
 Snake.prototype.addSegment = function(x, y)
@@ -61,4 +70,36 @@ Snake.prototype.move = function(mouseX, mouseY)
     this.segments[0].moveHead(mouseX, mouseY);
     for (var i = 1; i < this.segments.length; i++)
         this.segments[i].moveTail();
+}
+
+Snake.prototype.checkSelfCollision = function()
+{
+    var headPos = new Vector(this.segments[0].x, this.segments[0].y);
+    for(var i = 2; i <  this.segments.length; i++)
+    {
+        var distance = headPos.getDistanceFrom(new Vector(this.segments[i].x, this.segments[i].y));
+        if(distance < this.segments[0].radius)
+        {
+            this.alive = false;
+            return;
+        }
+    }
+}
+
+Snake.prototype.fall = function()
+{
+    if (this.segments.length > 0)
+        if (this.fallDelay === 0)
+        {
+            this.fallingSegments.push(this.segments.shift());
+            this.fallDelay = 5;
+        }
+        else
+            this.fallDelay--;
+
+    this.fallingSegments.forEach((segment) =>
+    {
+        segment.color = "white";
+        segment.fall();
+    });
 }

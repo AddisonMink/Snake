@@ -10,7 +10,7 @@
     <script src="scripts/Star.js"></script>
     <script src="scripts/Render.js"></script>
     <script>
-        // Track the mouse's position in the canvas.
+        // Global variables.
         var mouseX = null;
         var mouseY = null;
         function setMouseCoordinates(event)
@@ -18,11 +18,56 @@
             mouseX = event.pageX;
             mouseY = event.pageY;
         }
+
+        
     </script>
+    <style>
+        body
+        {
+            color: white;
+            font-family: 'Trebuchet MS', Helvetica, sans-serif;
+            font-size: 24px;
+        }
+
+        #dashboard
+        {
+            height: 50px;
+            width: 800px;
+            margin-top: 10px;
+            background-color: darkgray;
+        }
+
+        #score
+        {
+            display: inline-block;
+            line-height: 50px;
+            padding-left: 5px;
+        }
+
+        #reset
+        {
+            display: inline-block;
+            float: right;
+            margin-right: 5px;
+            margin-top: 6px;
+            background-color: lightgray;
+            font-family: 'Trebuchet MS', Helvetica, sans-serif;
+            font-size: 24px;
+            padding: 5px;
+        }
+        #reset:hover
+        {
+            background-color: #eeeeee;
+        }
+    </style>
 </head>
 <body>
     <div style="margin: auto">    
         <canvas height="400" width="800" style="background-color: #3987c9;" onmousemove="setMouseCoordinates(event)"></canvas>
+    </div>
+    <div id="dashboard">
+        <div id="score">Score: </div>
+        <div id="reset">RESET</div>
     </div>
     <script>
         // Setup.
@@ -42,7 +87,8 @@
 
         var renderer = new Renderer(context, snake);
         
-
+        var score = 0;
+        var scoreElement = document.getElementById("score");
 
         // Game loop.
         setInterval(() =>
@@ -51,8 +97,12 @@
             context.clearRect(0, 0, 800, 400);
 
             // Game logic.
-            snake.move(mouseX, mouseY);
+            if (snake.alive)
+                snake.move(mouseX, mouseY);
+            else
+                snake.fall();
 
+            // Spawn and despawn stars.
             if (star === null)
             {
                 var x = Math.floor(Math.random() * 800);
@@ -66,17 +116,25 @@
                     star = null;
             }
 
-            if (star !== null)
+            // Collision between the snake's head and the star.
+            if (star !== null && snake.alive)
             {
                 var head = this.snake.segments[0];
+                console.log(head);
                 var distance = (new Vector(head.x, head.y)).getDistanceFrom(new Vector(star.x, star.y));
                 if(distance < head.radius)
                 {
                     star = null;
                     var last = this.snake.segments[this.snake.segments.length - 1];
                     snake.addSegment(last.pointBehind.x, last.pointBehind.y);
+                    score++;
+                    scoreElement.innerHTML = "Score: " + score;
                 }
             }
+
+            // Collision between the snake's head and it's body.
+            if(snake.alive)
+                snake.checkSelfCollision();
 
             // Render.
             renderer.renderBackground();
