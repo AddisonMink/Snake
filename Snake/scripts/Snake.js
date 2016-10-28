@@ -4,7 +4,7 @@
     this.y = y;
     this.radius = 10;
     this.speed = 5;
-    this.color = "darkgray";
+    this.color = "lightgray";
     this.nextSegment = next;
     this.pointBehind = null;
 }
@@ -23,15 +23,6 @@ Segment.prototype.moveHead = function(x, y)
 
 Segment.prototype.moveTail = function()
 {
-    /*
-    if (this.nextSegment.pointBehind === null)
-        return;
-    this.getPointBehind(this.nextSegment.x, this.nextSegment.y);
-    this.x = this.nextSegment.pointBehind.x;
-    this.y = this.nextSegment.pointBehind.y;
-    console.log(this.pointBehind);
-    */
-
     if (this.nextSegment.pointBehind === null)
         return;
 

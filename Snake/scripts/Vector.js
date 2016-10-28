@@ -25,6 +25,13 @@ Vector.prototype.multiply = function(vector)
     return new Vector(x, y);
 }
 
+Vector.prototype.divide = function(vector)
+{
+    var x = this.x / vector.x;
+    var y = this.y / vector.y;
+    return new Vector(x, y);
+}
+
 Vector.prototype.normalize = function()
 {
     var magnitude = Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));

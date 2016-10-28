@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8" />
     <title>Snake</title>
-    <link rel="stylesheet" href="app.css" type="text/css" />
     <script src="app.js"></script>
     <script src="scripts/Vector.js"></script>
     <script src="scripts/Snake.js"></script>
@@ -22,7 +21,7 @@
 </head>
 <body>
     <div style="margin: auto">    
-        <canvas height="400" width="800" style="background-color: #eeeeee;" onmousemove="setMouseCoordinates(event)"></canvas>
+        <canvas height="400" width="800" style="background-color: #3987c9;" onmousemove="setMouseCoordinates(event)"></canvas>
     </div>
     <script>
         // Setup.
@@ -47,8 +46,9 @@
         {
             context.clearRect(0, 0, 800, 400);
             snake.move(mouseX, mouseY);
+            renderer.renderBackground();
             renderer.renderSegments();
-            renderer.renderFood(food);
+            renderer.renderForeground();
         }, 16);
     </script>
 </body>
