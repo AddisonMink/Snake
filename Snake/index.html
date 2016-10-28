@@ -7,6 +7,7 @@
     <script src="app.js"></script>
     <script src="scripts/Vector.js"></script>
     <script src="scripts/Snake.js"></script>
+    <script src="scripts/Star.js"></script>
     <script src="scripts/Render.js"></script>
     <script>
         // Track the mouse's position in the canvas.
@@ -37,6 +38,8 @@
         snake.addSegment(180, 300);
         snake.addSegment(160, 300);
 
+        var star = null;
+
         var renderer = new Renderer(context, snake);
         
 
@@ -44,11 +47,47 @@
         // Game loop.
         setInterval(() =>
         {
+            // Delete the previous frame.
             context.clearRect(0, 0, 800, 400);
+
+            // Game logic.
             snake.move(mouseX, mouseY);
+
+            if (star === null)
+            {
+                var x = Math.floor(Math.random() * 800);
+                var y = Math.floor(Math.random() * 300);
+                star = new Star(x, y);
+            }
+            else
+            {
+                star.dim();
+                if (star.lifespan === 0)
+                    star = null;
+            }
+
+            if (star !== null)
+            {
+                var head = this.snake.segments[0];
+                var distance = (new Vector(head.x, head.y)).getDistanceFrom(new Vector(star.x, star.y));
+                console.log(distance);
+                if(distance < head.radius)
+                {
+                    console.log("test");
+                    star = null;
+                    var last = this.snake.segments[this.snake.segments.length - 1];
+                    snake.addSegment(last.pointBehind.x, last.pointBehind.y);
+                }
+            }
+
+            // Render.
             renderer.renderBackground();
+
             renderer.renderSegments();
+
             renderer.renderForeground();
+
+            renderer.renderStar();
         }, 16);
     </script>
 </body>

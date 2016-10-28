@@ -9,7 +9,8 @@ Renderer.prototype.renderBackground = function()
     context.fillStyle = "#e3dac9";
     context.fillRect(0, 340, 800, 60);
 
-    context.fillStyle = "white";
+    //context.fillStyle = "white";
+    context.fillStyle = "#F5F3CE";
     context.beginPath();
     context.moveTo(120, 120);
     context.arc(120, 120, 100, 0, 2 * Math.PI, false);
@@ -33,6 +34,17 @@ Renderer.prototype.renderBackground = function()
     context.lineTo(280, 300);
     context.lineTo(290, 370);
     context.closePath();
+    context.fill();
+}
+
+Renderer.prototype.renderStar = function()
+{
+    if (star === null)
+        return;
+    context.fillStyle = "white";
+    console.log(context.fillStyle);
+    context.beginPath();
+    context.arc(star.x, star.y, star.radius, 0, 2 * Math.PI, false);
     context.fill();
 }
 
