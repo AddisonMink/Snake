@@ -70,10 +70,8 @@
             {
                 var head = this.snake.segments[0];
                 var distance = (new Vector(head.x, head.y)).getDistanceFrom(new Vector(star.x, star.y));
-                console.log(distance);
                 if(distance < head.radius)
                 {
-                    console.log("test");
                     star = null;
                     var last = this.snake.segments[this.snake.segments.length - 1];
                     snake.addSegment(last.pointBehind.x, last.pointBehind.y);
