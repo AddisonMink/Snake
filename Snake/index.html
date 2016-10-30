@@ -117,8 +117,9 @@
             // Spawn and despawn stars.
             if (star === null)
             {
-                var x = Math.floor(Math.random() * 800);
-                var y = Math.floor(Math.random() * 300);
+                var x = Math.floor(Math.random() * 700) + 50;
+                var y = Math.floor(Math.random() * 250) + 50;
+
                 star = new Star(x, y);
             }
             else
@@ -133,7 +134,7 @@
             {
                 var head = this.snake.segments[0];
                 var distance = (new Vector(head.x, head.y)).getDistanceFrom(new Vector(star.x, star.y));
-                if(distance < head.radius)
+                if(distance < head.radius+5)
                 {
                     star = null;
                     var last = this.snake.segments[this.snake.segments.length - 1];
